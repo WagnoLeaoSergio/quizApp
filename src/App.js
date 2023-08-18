@@ -13,13 +13,39 @@ function Header() {
   )
 }
 
-function Footer() {
+function Footer(props) {
+  const {
+    numberQuestions,
+    questionIdx,
+    setQuestionIdx,
+    setCurrentQuestion
+  } = props
+
+  const progressBarStyle = {
+    width: "100%",
+    height: 10,
+    backgroundColor: "green"
+  }
+  const questionsArray = Array.from({ length: numberQuestions }, (_, index) => index + 1)
+
+  console.log(questionsArray)
+
   return (
     <div className="buttons">
       <div className="quiz-progress">
-        10%
+        {
+          questionsArray.map(p =>
+            <div
+              key={p}
+              className="progressBar"
+              style={{
+                ...progressBarStyle,
+                backgroundColor: p <= questionIdx ? "green" : "blue"
+              }}
+            />
+          )
+        }
       </div>
-      <button>Próxima</button>
     </div>
   )
 }
@@ -32,29 +58,57 @@ function QuestionPanel(props) {
   const [currentQuestion, setCurrentQuestion] = useState(perguntas[0])
   const [corretAnswers, setCorretAnswers] = useState(0)
 
-  return (
-    <div className="question-box codi-box-style">
-      <div className="quiz-stats">
-        <div className="quiz-number-questions">
-          {questionIdx + 1} / {numberQuestions}
-        </div>
-      </div>
-      <Question
-        idx={questionIdx}
-        enunciado={currentQuestion.enunciado}
-        alternativas={currentQuestion.alternativas}
-        resposta={currentQuestion.resposta}
-        setCorretAnswers={setCorretAnswers}
-      />
-      <Footer
-        numberQuestions={numberQuestions}
-        questionIdx={questionIdx}
-        setQuestionIdx={setQuestionIdx}
-        setCurrentQuestion={setCurrentQuestion}
-      />
-    </div>
+  useEffect(() => {
+    setCurrentQuestion(perguntas[questionIdx])
+  }, [questionIdx])
 
-  )
+  if (questionIdx < numberQuestions) {
+    return (
+      <div className="question-box codi-box-style">
+        <div className="quiz-stats">
+          <div className="quiz-number-questions">
+            {questionIdx + 1} / {numberQuestions}
+          </div>
+        </div>
+        <Question
+          idx={questionIdx}
+          enunciado={currentQuestion.enunciado}
+          alternativas={currentQuestion.alternativas}
+          resposta={currentQuestion.resposta}
+          setQuestionIdx={setQuestionIdx}
+          corretAnswers={corretAnswers}
+          setCorretAnswers={setCorretAnswers}
+        />
+        <Footer
+          numberQuestions={numberQuestions}
+          questionIdx={questionIdx}
+          setQuestionIdx={setQuestionIdx}
+          setCurrentQuestion={setCurrentQuestion}
+        />
+      </div>
+    )
+  }
+  else {
+    return (
+      <div className="question-box codi-box-style">
+        <div className="quiz-stats">
+        </div>
+        <h1>
+          Você terminou o quiz!
+        </h1>
+        <h2>
+          Você acertou {(corretAnswers / numberQuestions) * 100}% das perguntas!
+        </h2>
+        <Footer
+          numberQuestions={numberQuestions}
+          questionIdx={questionIdx}
+          setQuestionIdx={setQuestionIdx}
+          setCurrentQuestion={setCurrentQuestion}
+        />
+      </div>
+    )
+  }
+
 }
 
 function Question(props) {
@@ -63,8 +117,17 @@ function Question(props) {
     enunciado,
     alternativas,
     resposta,
-    setCorretAnswers
+    corretAnswers,
+    setCorretAnswers,
+    setQuestionIdx
   } = props
+
+  function clickAlternativa(answer) {
+    if (answer == resposta) {
+      setCorretAnswers(corretAnswers + 1)
+    }
+    setQuestionIdx(idx + 1)
+  }
 
   return (
     <div className="question">
@@ -73,7 +136,17 @@ function Question(props) {
       <ul className="question-answers">
         {
           alternativas.map(
-            alternativa => <li className="codi-box-style">{alternativa}</li>
+            (alternativa, idx) => {
+              return (
+                <li
+                  key={idx}
+                  className="codi-box-style"
+                  onClick={() => clickAlternativa(idx)}
+                >
+                  {alternativa}
+                </li>
+              )
+            }
           )
         }
       </ul>
