@@ -1,3 +1,16 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto";
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  background-color: #FFF;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +48,139 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding: 20px;
+  margin-bottom: 3rem;
+  -webkit-box-shadow: 0px 21px 43px 8px rgba(0,0,0,0.07);
+  -moz-box-shadow: 0px 21px 43px 8px rgba(0,0,0,0.07);
+  box-shadow: 0px 21px 43px 8px rgba(0,0,0,0.07);
+}
+
+.codi-box-style {
+  background: none;
+  color: white;
+  border-radius: 1rem;
+  border-color: white;
+  border-style: solid;
+  border-width: 0.1rem;
+}
+
+.quiz-window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  width: auto;
+  height: 100vh;
+  margin-top: 20px;
+}
+
+.quiz-window > h1 {
+  margin-bottom: 35px;
+  text-align: center;
+  font-size: 2.9rem;
+}
+
+.quiz-stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 50px;
+  width: 80%;
+  margin: 10px 0;
+}
+
+.quiz-number-questions {
+  font-size: 1.6rem;
+}
+
+.question-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: #6610f2;
+  height: 60%; 
+  width: 60%;
+  border-radius: 1rem;
+}
+
+.question-box .question {
+  padding: 10px;
+  width: 80%;
+  margin: 20px 0;
+}
+
+.question-box > .buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  height: 4.0rem;
+}
+
+.buttons > button {
+  height: 3rem;
+  width: 8rem;
+  font-size: 1.3rem;
+  background: none;
+  color: white;
+  border-radius: 1rem;
+  border-color: white;
+  border-style: solid;
+  border-width: 0.1rem;
+}
+
+.buttons > button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.question > h2 {
+  margin: 2rem 0;
+  text-align: center;
+  font-size: 1.9rem;
+}
+
+.question > .question-answers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+
+.question > .question-answers > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  height: 3rem;
+  width: 70%;
+  max-width: 35rem;
+  margin: 5px 0;
+  border-radius: 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+
+
+.question > .question-answers > li:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+
 }
