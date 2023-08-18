@@ -1,6 +1,9 @@
-import codiLogo from './logo_codi_academy.png'
+import { useState, useEffect } from 'react';
 
+import codiLogo from './logo_codi_academy.png'
 import './App.css';
+
+import { perguntas } from './perguntas'
 
 function Header() {
   return (
@@ -21,43 +24,71 @@ function Footer() {
   )
 }
 
-function QuestionPanel() {
+function QuestionPanel(props) {
+  const { perguntas } = props
+  const numberQuestions = perguntas.length
+
+  const [questionIdx, setQuestionIdx] = useState(0)
+  const [currentQuestion, setCurrentQuestion] = useState(perguntas[0])
+  const [corretAnswers, setCorretAnswers] = useState(0)
+
   return (
     <div className="question-box codi-box-style">
       <div className="quiz-stats">
         <div className="quiz-number-questions">
-          1/10
+          {questionIdx + 1} / {numberQuestions}
         </div>
       </div>
-      <Question />
-      <Footer />
+      <Question
+        idx={questionIdx}
+        enunciado={currentQuestion.enunciado}
+        alternativas={currentQuestion.alternativas}
+        resposta={currentQuestion.resposta}
+        setCorretAnswers={setCorretAnswers}
+      />
+      <Footer
+        numberQuestions={numberQuestions}
+        questionIdx={questionIdx}
+        setQuestionIdx={setQuestionIdx}
+        setCurrentQuestion={setCurrentQuestion}
+      />
     </div>
 
   )
 }
 
-function Question() {
+function Question(props) {
+  const {
+    idx,
+    enunciado,
+    alternativas,
+    resposta,
+    setCorretAnswers
+  } = props
+
   return (
     <div className="question">
-      <h3>Pergunta 1:</h3>
-      <h2>Qual é o animal do símbolo da linguagem GoLang?</h2>
+      <h3>Pergunta {idx + 1}:</h3>
+      <h2>{enunciado}</h2>
       <ul className="question-answers">
-        <li className="codi-box-style">Gato</li>
-        <li className="codi-box-style">Cachorro</li>
-        <li className="codi-box-style">Macaco</li>
-        <li className="codi-box-style">Hamster</li>
+        {
+          alternativas.map(
+            alternativa => <li className="codi-box-style">{alternativa}</li>
+          )
+        }
       </ul>
     </div>
   )
 }
 
 function App() {
+
   return (
     <>
       <Header />
       <div className="quiz-window">
         <h1>Questionário de Tecnologia</h1>
-        <QuestionPanel />
+        <QuestionPanel perguntas={perguntas} />
       </div>
     </>
   );
